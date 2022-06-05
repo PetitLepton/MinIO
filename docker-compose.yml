@@ -1,0 +1,17 @@
+version: '3.9'
+services:
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    network_mode: host
+    command: server /data --console-address ":9001"
+    # Ensure that the folder owns
+    user: $UID_:$GID_
+    ports:
+      - 9000:9000
+      - 9001:9001
+    environment:
+      MINIO_ROOT_USER: $MINIO_ROOT_PASSWORD
+      MINIO_ROOT_PASSWORD: $MINIO_ROOT_PASSWORD
+    volumes:
+      - ./minio:/data
